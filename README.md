@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📄 PDF Q&A App
 
-## Getting Started
+A **Next.js 15** application that allows users to upload PDFs, extract their text, and query the content using **OpenAI embeddings + Pinecone** for semantic search.  
 
-First, run the development server:
+---
+
+## 🚀 Features
+- Upload PDF files and parse their text.  
+- Store extracted chunks into **Pinecone** vector database.  
+- Ask natural language questions about your PDF.  
+- Get AI-powered answers based on document context.  
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/<your-username>/pdf-app.git
+cd pdf-app
+```
+2️⃣ Install Dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3️⃣ Configure Environment Variables
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Create a .env.local file in the root directory:
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+PINECONE_API_KEY=your_pinecone_api_key_here
+PINECONE_ENV=your_pinecone_environment
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+⚠️ Note: .env is ignored in git. Instead, we provide a .env.example so others know what’s required.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4️⃣ Run Development Server
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+The app will start at:
+👉 http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🧠 Approach
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## PDF Upload & Parsing
+
+-Users upload a PDF via /api/upload.
+
+-We parse the text using pdf-parse
+.
+
+## Text Splitting & Embeddings
+
+-Long text is split into chunks for better semantic retrieval.
+
+-Each chunk is converted into embeddings using OpenAI’s Embedding API.
+
+## Vector Database Storage
+
+-Embeddings are stored in Pinecone, enabling semantic similarity search.
+
+## Question Answering
+
+-When the user asks a question, the system retrieves the most relevant chunks from Pinecone.
+
+-Those chunks are sent to OpenAI GPT model to generate a contextual answer.
+
+### 📂 Project Structure
+```bash
+pdf-app/
+├── app/
+│   ├── api/
+│   │   └── upload/route.js   # PDF upload & parsing API
+│   ├── page.js               # UI for upload & Q&A
+├── lib/
+│   └── pdfParser.js          # PDF parsing logic
+├── public/                   # Static files
+├── .env.example              # Example environment variables
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+
+### 📌 Notes
+
+-.env is not committed for security. Use .env.example as a template.
+
+-Currently using in-memory storage for extracted text (can be extended to DB).
+
+-TailwindCSS is optional (we skipped it for now to keep setup simple).
+
+
+Do you also want me to add a **Usage Example section** (step-by-step: upload → ask → answer), s
+
